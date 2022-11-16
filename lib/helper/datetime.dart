@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 class DatetimeApp {
   DatetimeApp._();
-  static final formatDate = DateFormat('yyyy-mm-dd');
+  static final formatDate = DateFormat('yyyy mm dd');
   static final formatDate2 = DateFormat('EEEE, dd MM yyyy');
   static final formatDateTime = DateFormat('dd MMM yyyy hh : mm');
   static final formatDateDDD = DateFormat('MM');
@@ -15,7 +15,7 @@ class DatetimeApp {
       if (date == null) {
         return null;
       }
-      return formatDate.format(date);
+      return formatDate2.format(date);
     } catch (e) {
       if (kDebugMode) {
         print(e);

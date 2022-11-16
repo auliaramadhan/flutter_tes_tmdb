@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_starter_private/components/card_movie.dart';
 import 'package:provider/provider.dart';
 
 import '../../helper/size_config.dart';
@@ -20,13 +21,13 @@ class _MovieFavoritsScreenState extends State<MovieFavoritsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<MovieState>().getPopularsMovie();
+    context.read<MovieState>().getFavoritMovie();
   }
 
   @override
   Widget build(BuildContext context) {
     final movieState = context.watch<MovieState>();
-    final double itemHeight = 360;
+    final double itemHeight = (SizeConfig.screenWidth / 2) * 1.4;
     final double itemWidth = SizeConfig.screenWidth / 2;
 
     return Observer(
@@ -38,41 +39,20 @@ class _MovieFavoritsScreenState extends State<MovieFavoritsScreen> {
               Expanded(
                 child: GridView.builder(
                   itemBuilder: (context, index) {
-                    final movie = movieState.listPopular[index];
-                    return InkWell(
+                    final movie = movieState.listFavorit[index];
+                    return CardMovie(
+                      movie: movie,
                       onTap: () {
-                        // AutoRouter.of(context).push(EditMovieRoute(movie: movie));
+                        print('inkwell');
                       },
-                      child: Card(
-                        elevation: 4,
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ClipRRect(
-                                child: Image.network(
-                                  ((movie.posterPath ?? movie.poster) != null) ? ApiUrl.BASE_IMAGE + (movie.posterPath ?? movie.poster!) : AppImage.noImage,
-                                  height: 200,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              Text(movie.title, style: AppFont.title16, textAlign: TextAlign.center,),
-                              Text(movie.director, style: AppFont.subtitle12),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  Text(movie.voteAverage.toString(), style: AppFont.subtitle12),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      isFavorit: true,
+                      pressFavorit: () {
+                        print('facvor ');
+                        context.read<MovieState>().removeFavorite(movie.id);
+                      },
                     );
                   },
-                  itemCount: movieState.listMovie.length,
+                  itemCount: movieState.listFavorit.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 8,

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_starter_private/page/movie_detail/movie_detail_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../components/card_movie.dart';
 import '../../helper/size_config.dart';
 import '../../mobx/movie/movie_state.dart';
-import '../../theme/appfont.dart';
-import '../../theme/image.dart';
-import '../../utils/api_url.dart';
 
 class MovieListScreen extends StatefulWidget {
   const MovieListScreen({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     final movieState = context.watch<MovieState>();
-    final double itemHeight = 360;
+    final double itemHeight = (SizeConfig.screenWidth / 2) * 1.4;
     final double itemWidth = SizeConfig.screenWidth / 2;
 
     return Observer(
@@ -39,37 +38,21 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 child: GridView.builder(
                   itemBuilder: (context, index) {
                     final movie = movieState.listMovie[index];
-                    return InkWell(
+                    final isFavorite = movieState.indexPopular.contains(index);
+                    return CardMovie(
+                      movie: movie,
                       onTap: () {
-                        // AutoRouter.of(context).push(EditMovieRoute(movie: movie));
+                        print('inkwell');
                       },
-                      child: Card(
-                        elevation: 4,
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ClipRRect(
-                                child: Image.network(
-                                  ((movie.posterPath ?? movie.poster) != null) ? ApiUrl.BASE_IMAGE + (movie.posterPath ?? movie.poster!) : AppImage.noImage,
-                                  height: 200,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              Text(movie.title, style: AppFont.title16, textAlign: TextAlign.center,),
-                              Text(movie.director, style: AppFont.subtitle12),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  Text(movie.voteAverage.toString(), style: AppFont.subtitle12),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      isFavorit: isFavorite,
+                      pressFavorit: () {
+                        if (movieState.isLoading) return;
+                        if (isFavorite) {
+                          context.read<MovieState>().removeFavorite(movie.id);
+                        } else {
+                          context.read<MovieState>().addFavorite(movie);
+                        }
+                      },
                     );
                   },
                   itemCount: movieState.listMovie.length,

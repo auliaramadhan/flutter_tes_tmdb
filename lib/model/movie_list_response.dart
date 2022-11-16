@@ -125,7 +125,6 @@ class MovieData {
   factory MovieData.fromJson(Map<String, dynamic> json) => MovieData(
         backdropPath: json["backdrop_path"],
         id: json["id"],
-        genreIds: checkAndDecode<List<int>>(json["genre_ids"]) ?? [],
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
         overview: json["overview"],
@@ -136,6 +135,7 @@ class MovieData {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
         director: "No Director",
+        genreIds: checkAndDecode<List<int>>(json["genre_ids"]) ?? [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -146,11 +146,11 @@ class MovieData {
         "overview": overview,
         "popularity": popularity,
         "poster_path": posterPath,
-        "genre_ids": json.encode(genreIds),
         "release_date": releaseDate.toIso8601String(),
         "title": title,
         "vote_average": voteAverage,
         "vote_count": voteCount,
+        "genre_ids": json.encode(genreIds),
       };
 }
 
@@ -167,4 +167,5 @@ class MovieField {
   static const title = "title";
   static const voteAverage = "vote_average";
   static const voteCount = "vote_count";
+  static const genreIds = "genre_ids";
 }

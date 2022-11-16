@@ -12,7 +12,7 @@ class MovieFavoritsPage extends StatefulWidget {
   State<MovieFavoritsPage> createState() => _MovieFavoritsPageState();
 }
 
-class _MovieFavoritsPageState extends State<MovieFavoritsPage> {
+class _MovieFavoritsPageState extends State<MovieFavoritsPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,4 +28,7 @@ class _MovieFavoritsPageState extends State<MovieFavoritsPage> {
       ),
     );
   }
+    @override
+  bool get wantKeepAlive => true;
+
 }

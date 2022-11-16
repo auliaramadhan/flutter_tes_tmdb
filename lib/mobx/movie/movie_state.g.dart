@@ -65,19 +65,19 @@ mixin _$MovieState on _MovieState, Store {
     });
   }
 
-  late final _$listPopularAtom =
-      Atom(name: '_MovieState.listPopular', context: context);
+  late final _$listFavoritAtom =
+      Atom(name: '_MovieState.listFavorit', context: context);
 
   @override
-  ObservableList<MovieData> get listPopular {
-    _$listPopularAtom.reportRead();
-    return super.listPopular;
+  ObservableList<MovieData> get listFavorit {
+    _$listFavoritAtom.reportRead();
+    return super.listFavorit;
   }
 
   @override
-  set listPopular(ObservableList<MovieData> value) {
-    _$listPopularAtom.reportWrite(value, super.listPopular, () {
-      super.listPopular = value;
+  set listFavorit(ObservableList<MovieData> value) {
+    _$listFavoritAtom.reportWrite(value, super.listFavorit, () {
+      super.listFavorit = value;
     });
   }
 
@@ -97,12 +97,12 @@ mixin _$MovieState on _MovieState, Store {
     return _$getListMovieAsyncAction.run(() => super.getListMovie(page));
   }
 
-  late final _$getPopularsMovieAsyncAction =
-      AsyncAction('_MovieState.getPopularsMovie', context: context);
+  late final _$getFavoritMovieAsyncAction =
+      AsyncAction('_MovieState.getFavoritMovie', context: context);
 
   @override
-  Future<bool> getPopularsMovie() {
-    return _$getPopularsMovieAsyncAction.run(() => super.getPopularsMovie());
+  Future<bool> getFavoritMovie() {
+    return _$getFavoritMovieAsyncAction.run(() => super.getFavoritMovie());
   }
 
   late final _$addFavoriteAsyncAction =
@@ -113,13 +113,21 @@ mixin _$MovieState on _MovieState, Store {
     return _$addFavoriteAsyncAction.run(() => super.addFavorite(movie));
   }
 
+  late final _$removeFavoriteAsyncAction =
+      AsyncAction('_MovieState.removeFavorite', context: context);
+
+  @override
+  Future<bool> removeFavorite(int id) {
+    return _$removeFavoriteAsyncAction.run(() => super.removeFavorite(id));
+  }
+
   @override
   String toString() {
     return '''
 movieDetail: ${movieDetail},
 isLoading: ${isLoading},
 listMovie: ${listMovie},
-listPopular: ${listPopular},
+listFavorit: ${listFavorit},
 indexPopular: ${indexPopular}
     ''';
   }

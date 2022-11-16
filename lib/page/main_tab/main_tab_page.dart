@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_starter_private/page/movie_favorits/movie_favorits_page.dart';
 import 'package:flutter_starter_private/page/movie_list/movie_list_page.dart';
 
 import '../../theme/apptheme.dart';
-import 'main_tab_screen.dart';
 
 class MainTabPage extends StatefulWidget {
   const MainTabPage({Key? key}) : super(key: key);
@@ -15,11 +15,13 @@ class _MainTabPageState extends State<MainTabPage> {
   int indexBottom = 0;
 
   late final pages;
+  
+  final _pageController = PageController();
   @override
   void initState() {
     pages = [
-      MovieListPage(),
-      MovieListPage(),
+      const MovieListPage(),
+      const MovieFavoritsPage(),
     ];
     super.initState();
   }
@@ -35,13 +37,22 @@ class _MainTabPageState extends State<MainTabPage> {
           setState(() {
             indexBottom = bar;
           });
+          _pageController.jumpToPage(bar);
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Popular'),
           BottomNavigationBarItem(icon: Icon(Icons.note), label: 'Favorite'),
         ],
       ),
-      body: pages[indexBottom],
+      body: PageView(
+        children: pages,
+        controller: _pageController,
+        onPageChanged: (value) {
+          setState(() {
+            indexBottom = value;
+          });
+        },
+      ),
     );
   }
 }

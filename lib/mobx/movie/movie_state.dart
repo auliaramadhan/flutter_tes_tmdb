@@ -21,12 +21,12 @@ abstract class _MovieState with Store {
   ObservableList<MovieData> listMovie = ObservableList<MovieData>();
 
   @observable
-  ObservableList<MovieData> listPopular = ObservableList<MovieData>();
+  ObservableList<MovieData> listFavorit = ObservableList<MovieData>();
 
   @computed
   Set<int> get indexPopular {
     final listIndex = Set<int>();
-    for (var data in listPopular) {
+    for (var data in listFavorit) {
       final index = listMovie.indexWhere((element) => element.id == data.id);
       listIndex.add(index);
     }
@@ -66,11 +66,11 @@ abstract class _MovieState with Store {
   }
 
   @action
-  Future<bool> getPopularsMovie() async {
+  Future<bool> getFavoritMovie() async {
     isLoading = true;
     try {
-      final list = await movieRepo.fetchAllPopular();
-      listPopular.addAll(list);
+      final list = await movieRepo.fetchAllFavorit();
+      listFavorit.addAll(list);
     } catch (e) {
       print(e);
     } finally {
@@ -81,12 +81,34 @@ abstract class _MovieState with Store {
 
   @action
   Future<bool> addFavorite(MovieData movie) async {
-    if (listPopular.any((element) => element.id == movie.id)) {}
+    if (listFavorit.any((element) => element.id == movie.id)) {
+      return false;
+    }
     isLoading = true;
     try {
       final success = await movieRepo.postFavorite(movie);
       if (success) {
-        listPopular.add(movie);
+        listFavorit.add(movie);
+      } else {}
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading = false;
+    }
+    return true;
+  }
+
+  @action
+  Future<bool> removeFavorite(int id) async {
+    final index = listFavorit.indexWhere((element) => element.id == id);
+    if (index == -1) {
+      return false;
+    }
+    isLoading = true;
+    try {
+      final success = await movieRepo.deleteFavorite(id);
+      if (success) {
+        listFavorit.removeAt(index);
       } else {}
     } catch (e) {
       print(e);

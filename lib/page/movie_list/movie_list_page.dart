@@ -12,23 +12,13 @@ class MovieListPage extends StatefulWidget {
   State<MovieListPage> createState() => _MovieListPageState();
 }
 
-class _MovieListPageState extends State<MovieListPage> {
+class _MovieListPageState extends State<MovieListPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Movie List'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => CreateMoviePage()));
-            },
-            child: Text("New", style: AppFont.white),
-            style: AppTheme.buttonTextPrimary,
-          ),
-          ExtraWidth(32),
-        ],
       ),
       body: SafeArea(
         child: Container(
@@ -38,4 +28,7 @@ class _MovieListPageState extends State<MovieListPage> {
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

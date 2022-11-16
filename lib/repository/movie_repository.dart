@@ -12,8 +12,9 @@ abstract class MovieRepository {
   Future<ListMovieResponse> fetchListMovie([int? page]);
   Future<MovieDetailResponse> fetchDetailMovie(String id);
 
-  Future<List<MovieData>> fetchAllPopular();
+  Future<List<MovieData>> fetchAllFavorit();
   Future<bool> postFavorite(MovieData movie);
+  Future<bool> deleteFavorite(int id);
   Future<MovieData> updateMovie(MovieData movie);
   Future<MovieData> postMovie(MovieData movie);
 }
@@ -40,7 +41,7 @@ class MovieRepositoryImpl implements MovieRepository {
     final query = {
       "api_key": ApiUrl.API_KEY,
       "language": 'en-US',
-      "append_to_response" : 'credits,images',
+      "append_to_response": 'credits,images',
     };
     final rawResponse = await httpClient.get(ApiUrl.MOVIE + id, query: query);
     if (rawResponse is DioError) {
@@ -50,7 +51,7 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  fetchAllPopular() async {
+  fetchAllFavorit() async {
     await FutureDelayer.delayBy1000();
     final listMovie = await MovieFavoriteDatabase.instance.readAllMovie();
     return listMovie;
@@ -62,17 +63,23 @@ class MovieRepositoryImpl implements MovieRepository {
     await MovieFavoriteDatabase.instance.create(movie);
     return true;
   }
-  
+
+  @override
+  deleteFavorite(id) async {
+    await FutureDelayer.delayBy1000();
+    await MovieFavoriteDatabase.instance.delete(id);
+    return true;
+  }
+
   @override
   Future<MovieData> postMovie(MovieData movie) {
     // TODO: implement postMovie
     throw UnimplementedError();
   }
-  
+
   @override
   Future<MovieData> updateMovie(MovieData movie) {
     // TODO: implement updateMovie
     throw UnimplementedError();
   }
-  
 }
