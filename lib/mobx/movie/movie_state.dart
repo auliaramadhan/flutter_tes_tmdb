@@ -18,6 +18,9 @@ abstract class _MovieState with Store {
   bool isLoading = false;
 
   @observable
+  String? message;
+
+  @observable
   ObservableList<MovieData> listMovie = ObservableList<MovieData>();
 
   @observable
@@ -91,8 +94,10 @@ abstract class _MovieState with Store {
       final success = await movieRepo.postFavorite(movie);
       if (success) {
         listFavorit.add(movie);
+        message = 'sukses menambah favorit';
       } else {}
     } catch (e) {
+      message = 'maaf terjadi kesalahn dalam tambah favorit';
       print(e);
     } finally {
       isLoading = false;
@@ -111,8 +116,10 @@ abstract class _MovieState with Store {
       final success = await movieRepo.deleteFavorite(id);
       if (success) {
         listFavorit.removeAt(index);
+        message = 'sukses menghapus favorit';
       } else {}
     } catch (e) {
+      message = 'maaf terjadi kesalahn dalam hapus favorit';
       print(e);
     } finally {
       isLoading = false;

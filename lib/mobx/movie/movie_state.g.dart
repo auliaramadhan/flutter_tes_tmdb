@@ -49,6 +49,22 @@ mixin _$MovieState on _MovieState, Store {
     });
   }
 
+  late final _$messageAtom =
+      Atom(name: '_MovieState.message', context: context);
+
+  @override
+  String? get message {
+    _$messageAtom.reportRead();
+    return super.message;
+  }
+
+  @override
+  set message(String? value) {
+    _$messageAtom.reportWrite(value, super.message, () {
+      super.message = value;
+    });
+  }
+
   late final _$listMovieAtom =
       Atom(name: '_MovieState.listMovie', context: context);
 
@@ -126,6 +142,7 @@ mixin _$MovieState on _MovieState, Store {
     return '''
 movieDetail: ${movieDetail},
 isLoading: ${isLoading},
+message: ${message},
 listMovie: ${listMovie},
 listFavorit: ${listFavorit},
 indexPopular: ${indexPopular}

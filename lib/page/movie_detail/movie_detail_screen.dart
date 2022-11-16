@@ -4,11 +4,13 @@ import 'package:flutter_starter_private/components/form/text_form_border.dart';
 import 'package:flutter_starter_private/components/spacing.dart';
 import 'package:flutter_starter_private/helper/datetime.dart';
 import 'package:flutter_starter_private/helper/size_config.dart';
+import 'package:flutter_starter_private/helper/utils.dart';
 import 'package:flutter_starter_private/mobx/movie/movie_state.dart';
 import 'package:flutter_starter_private/model/movie_list_response.dart';
 import 'package:flutter_starter_private/theme/image.dart';
 import 'package:flutter_starter_private/utils/api_url.dart';
 import 'package:flutter_starter_private/utils/constant.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/button/button_primary.dart';
@@ -28,6 +30,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   bool isFavorit = false;
 
+  late List<ReactionDisposer> _disposer;
+
   @override
   void initState() {
     super.initState();
@@ -38,15 +42,47 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print('didChangeDependencies');
+    final movieState = Provider.of<MovieState>(context);
+    _disposer = [
+      reaction(
+        (_) => movieState.listFavorit.length,
+        (_) {
+          final index = movieState.listFavorit.indexWhere((e) => e.id == widget.movieId);
+          setState(() {
+            isFavorit = index > -1;
+          });
+        },
+      ),
+      reaction<String?>((_) {
+          return movieState.message;
+        } , (message) {
+          if (message != null) {
+            Utils.showAlert(text: message);
+          }
+        })
+    ];
+  }
+
+  @override
+  void dispose() {
+    _disposer.forEach((fn) {
+      fn();
+    });
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       final movie = context.watch<MovieState>().movieDetail;
-      final isloading = context.watch<MovieState>().isLoading;
-      final indexFavorits = context.watch<MovieState>().indexPopular;
       final director = movie?.credits?.crew?.firstWhere((element) => element.job == 'Director');
       final castList = movie?.credits?.cast;
-      if (movie == null || isloading) {
-        return const Center(child: CircularProgressIndicator());
+      if (movie == null) {
+        return const Center();
       }
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,6 +254,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           director: 'no director',
           voteAverage: movie.voteAverage,
           voteCount: movie.voteCount,
+          poster: movie.posterPath,
+          posterPath: movie.posterPath,
         ));
   }
 
