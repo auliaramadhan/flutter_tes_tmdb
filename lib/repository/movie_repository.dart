@@ -40,6 +40,7 @@ class MovieRepositoryImpl implements MovieRepository {
     final query = {
       "api_key": ApiUrl.API_KEY,
       "language": 'en-US',
+      "append_to_response" : 'credits,images',
     };
     final rawResponse = await httpClient.get(ApiUrl.MOVIE + id, query: query);
     if (rawResponse is DioError) {
