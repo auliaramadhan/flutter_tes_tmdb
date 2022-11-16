@@ -15,11 +15,23 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
+  final controller = ScrollController();
+
+  int page = 1;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    controller.addListener(_scrollListener);
     context.read<MovieState>().getListMovie();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.removeListener(_scrollListener);
+    super.dispose();
   }
 
   @override
@@ -36,6 +48,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
             children: [
               Expanded(
                 child: GridView.builder(
+                  controller: controller,
                   itemBuilder: (context, index) {
                     final movie = movieState.listMovie[index];
                     final isFavorite = movieState.indexPopular.contains(index);
@@ -71,5 +84,15 @@ class _MovieListScreenState extends State<MovieListScreen> {
         ],
       ),
     );
+  }
+
+  _scrollListener() {
+    if (context.read<MovieState>().isLoading) {
+      return;
+    }
+    // print(controller.position.extentAfter);
+    if (controller.position.extentAfter <= 0) {
+      context.read<MovieState>().getListMovie(++page);
+    }
   }
 }

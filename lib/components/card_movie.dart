@@ -39,7 +39,7 @@ class CardMovie extends StatelessWidget {
                     onPressed: pressFavorit,
                     icon: Icon(
                       Icons.favorite,
-                      color: isFavorit ? Colors.red : Colors.white,
+                      color: isFavorit ? Colors.red : Colors.grey,
                     ),
                   )
                 ],

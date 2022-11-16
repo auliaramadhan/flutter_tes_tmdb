@@ -17,12 +17,14 @@ List<T> jsonToList<T>(List<dynamic>? list, T Function(Map<String, dynamic> json)
   }
 }
 
-T? checkAndDecode<T>(dynamic value) {
-  if (value is T) {
-    return value!;
-  } else if (value is String) {
-    return json.decode(value) as T;
-  }
+dynamic checkAndDecode(dynamic value) {
+  try {
+    if (value is String) {
+      final result = json.decode(value);
+      return (result );
+    }
+    return (value );
+  } catch (e) {}
   return null;
 }
 

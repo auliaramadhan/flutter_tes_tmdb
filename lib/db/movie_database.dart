@@ -3,7 +3,7 @@ import 'package:flutter_starter_private/model/movie_list_response.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-const popularMovieTable = 'popular_movie2';
+const popularMovieTable = 'popular_movie3';
 
 class MovieFavoriteDatabase {
   static final MovieFavoriteDatabase instance = MovieFavoriteDatabase._init();
@@ -35,11 +35,11 @@ class MovieFavoriteDatabase {
           ${MovieField.originalLanguage} $dbTextType $dbTypeNonNull,
           ${MovieField.originalTitle} $dbTextType $dbTypeNonNull,
           ${MovieField.overview} $dbTextType $dbTypeNonNull ,
-          ${MovieField.popularity} $dbTextType $dbTypeNonNull,
+          ${MovieField.popularity} $dbRealType $dbTypeNonNull,
           ${MovieField.posterPath} $dbTextType $dbTypeNonNull ,
           ${MovieField.releaseDate} $dbTextType $dbTypeNonNull ,
           ${MovieField.title} $dbTextType $dbTypeNonNull ,
-          ${MovieField.voteAverage} $dbIntegerType $dbTypeNonNull ,
+          ${MovieField.voteAverage} $dbRealType $dbTypeNonNull ,
           ${MovieField.voteCount} $dbIntegerType $dbTypeNonNull ,
           ${MovieField.genreIds} $dbTextType $dbTypeNonNull 
         )

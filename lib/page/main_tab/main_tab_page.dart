@@ -40,8 +40,8 @@ class _MainTabPageState extends State<MainTabPage> {
           _pageController.jumpToPage(bar);
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Popular'),
-          BottomNavigationBarItem(icon: Icon(Icons.note), label: 'Favorite'),
+          BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Popular'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorite'),
         ],
       ),
       body: PageView(

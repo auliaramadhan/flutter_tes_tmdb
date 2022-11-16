@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_starter_private/components/card_movie.dart';
+import 'package:flutter_starter_private/page/movie_detail/movie_detail_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../helper/size_config.dart';
@@ -44,6 +45,7 @@ class _MovieFavoritsScreenState extends State<MovieFavoritsScreen> {
                       movie: movie,
                       onTap: () {
                         print('inkwell');
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => MovieDetailPage(movieId: movie.id, isFavorit: true)));
                       },
                       isFavorit: true,
                       pressFavorit: () {

@@ -135,7 +135,7 @@ class MovieData {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
         director: "No Director",
-        genreIds: checkAndDecode<List<int>>(json["genre_ids"]) ?? [],
+        genreIds: List<int>.from(checkAndDecode(json["genre_ids"]) ?? []),
       );
 
   Map<String, dynamic> toJson() => {
