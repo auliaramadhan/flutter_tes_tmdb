@@ -47,7 +47,7 @@ class _MovieFavoritsScreenState extends State<MovieFavoritsScreen> {
                       },
                       isFavorit: true,
                       pressFavorit: () {
-                        print('facvor ');
+                        if (movieState.isLoading) return;
                         context.read<MovieState>().removeFavorite(movie.id);
                       },
                     );

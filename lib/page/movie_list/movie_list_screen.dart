@@ -43,6 +43,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                       movie: movie,
                       onTap: () {
                         print('inkwell');
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => MovieDetailPage(movieId: movie.id, isFavorit: isFavorite)));
                       },
                       isFavorit: isFavorite,
                       pressFavorit: () {

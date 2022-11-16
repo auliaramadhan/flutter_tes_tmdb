@@ -43,7 +43,9 @@ abstract class _MovieState with Store {
     try {
       final movieDetailResponse = await movieRepo.fetchDetailMovie(id.toString());
       movieDetail = movieDetailResponse;
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
     isLoading = false;
     return true;
   }
