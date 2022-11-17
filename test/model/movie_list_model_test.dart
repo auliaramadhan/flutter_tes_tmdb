@@ -6,20 +6,20 @@ void main() {
   test(
     "check json transform",
     () {
-      final dataFromJson = ListMovieResponse.fromJson(_mapData);
+      final dataFromJson = ListMovieResponse.fromJson(mockListMovie);
       final revertData = dataFromJson.toJson();
       for (var keyName in revertData.keys) {
         if (keyName == 'results') {
-          expect(revertData[keyName]!.length, _mapData[keyName]!.length);
+          expect(revertData[keyName]!.length, mockListMovie[keyName]!.length);
           continue;
         }
-        expect(revertData[keyName], _mapData[keyName]);
+        expect(revertData[keyName], mockListMovie[keyName]);
       }
     },
   );
 }
 
-const Map<String, dynamic> _mapData = {
+const Map<String, dynamic> mockListMovie = {
   "page": 1,
   "results": [
     {

@@ -9,7 +9,7 @@ void main() {
     final dataFromJson = MovieDetailResponse.fromJson(mockDetailMovie);
     final revertData = dataFromJson.toJson();
     for (var keyName in revertData.keys) {
-      if ( ['genres', 'credits','images'].contains(keyName)) {
+      if ( ['genres', 'credits'].contains(keyName)) {
         continue;
       }
       expect(revertData[keyName], mockDetailMovie[keyName]);
