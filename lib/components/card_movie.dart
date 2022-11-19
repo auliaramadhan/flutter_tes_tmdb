@@ -29,7 +29,7 @@ class CardMovie extends StatelessWidget {
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
                     child: Image.network(
-                      ApiUrl.BASE_IMAGE + (movie.posterPath ?? movie.poster!),
+                      movie.posterPath != null ? (ApiUrl.BASE_IMAGE + movie.posterPath!) : AppImage.noImage,
                       height: constraint.maxHeight - 70,
                       width: double.maxFinite,
                       fit: BoxFit.fill,

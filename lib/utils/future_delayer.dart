@@ -1,11 +1,9 @@
 import 'dart:io';
 
 abstract class FutureDelayer {
-  static delayBy1000() => Future.delayed(const Duration(milliseconds: 1000));
-  static delayBy1500() => Future.delayed(const Duration(milliseconds: 1500));
-  static delayBy2000() => Future.delayed(const Duration(milliseconds: 2000));
-  final asdd = Duration();
-
+  static Future delayBy1000() => Future.delayed(const Duration(milliseconds: 1000));
+  static Future delayBy1500() => Future.delayed(const Duration(milliseconds: 1500));
+  static Future delayBy2000() => Future.delayed(const Duration(milliseconds: 2000));
 }
 
 extension WithDelay<T> on T {

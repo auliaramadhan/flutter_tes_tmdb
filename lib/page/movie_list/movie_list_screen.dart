@@ -53,6 +53,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                     final movie = movieState.listMovie[index];
                     final isFavorite = movieState.indexPopular.contains(index);
                     return CardMovie(
+                      key: Key('$index'),
                       movie: movie,
                       onTap: () {
                         print('inkwell');

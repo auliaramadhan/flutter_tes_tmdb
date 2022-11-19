@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_starter_private/helper/size_config.dart';
@@ -28,6 +30,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      // untuk test
+      appBar: (Platform.isAndroid || Platform.isIOS ) ? null : AppBar(),
       body: ReactionBuilder(
         builder: (_) => reaction<String?>((_) {
           return context.read<MovieState>().message;
@@ -37,6 +41,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           // }
         }),
         child: SafeArea(
+          key: Key('MovieDetailPage'),
           child: Stack(
             children: [
               SingleChildScrollView(

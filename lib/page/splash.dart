@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Timer(
+    Future.delayed(
       Duration(milliseconds: 1000),
       () {
         checkIfLogin();
